@@ -1,4 +1,196 @@
-js 学习笔记 - 秘密花园
+学习笔记
+
+http2
+多个请求可以合并成一个
+同一个请求头中可以有多个方法。
+信息头进行了压缩
+服务器主动push
+
+解决了问题：
+多个请求时TCP链接耗时，相同请求头耗流量
+html与内部资源的延时减少
+
+
+inline-block 的迷之空白
+1，改变html的结构；压缩、缺失结束标签
+2，修改nodeType=3 表示文本txt
+3，margin为负值
+4，font-size of container 为0
+5，chrome中用4 Safari中用letter-space：-n px
+
+
+
+<script>标签属性：
+async：立即下载脚本，但不妨碍页面中的其他操作。
+defer：jiao脚本可以延迟到文档被完全解析和解释之后再执行。
+在解析嵌入式和外部js（包括下载该文件）时，页面处理会暂停。
+在包含src的script标签里写js会被浏览器忽略。
+
+异步脚本一定在页面load之前执行。
+
+在XHTML中使用大于 小于符号，可以用注释加CDATA的方式
+//<! [CDATA[
+
+
+//]]>
+
+Commonjsk/AMD/CMD 的区别
+
+COMMONJS 适合运行在服务端，如nodejs。一个文件就是一个模块，加载模块用require，返回文件内部的方法用export方法。
+用require加载模块时，可省略js后缀。
+commons是同步加载的。
+
+AMD是requirejs在推广过程中产生的规范。
+用defined（【数组】，function（）{}）的方式定义模块。
+也支持commonjs
+
+CMD 是seats推广过程中产生的规范。
+
+
+AMD（requirejs）依赖前置，提前执行
+
+CMD (seajs) 依赖就近，延迟执行
+
+标识符的命名规则：
+首字符：字母 $ 下划线
+其余字符：字母 $ 下划线
+除开关键字、保留字、true、false、null
+
+typeof的返回值有6种
+object string boolean function number undefined
+
+对于未声明过得变量，只能用typeof 和delete操作符，后者没有意义。
+
+null值表示一个空对象的指针，typeof null 返回 “object”
+声明用来存储对象的变量时，声明成null
+
+浮点数计算不精确，是因为使用了IEEE745 这是通病
+
+js可保存的最大的值是Number.MAX_VALUE, 最小值是Number.MIN_VALUE
+
+用isFinit（）来检测是否在最大最小之间。
+
+Function.prototype.bind: 将函数绑定到指定函数
+适用场景：
+将某个函数以值的方式进行传递，且该函数需要在指定上下文中调用。
+
+函数科理化 function currying
+科理化函数：在内部调用函数并为它传值
+
+科理化函数比绑定函数多了个传值
+
+function的参数 arguments 是类数组，可以用下标访问，有length
+在参数存在的情况下，arguments与参数的值永远对应。参数为基本数据类型时，值会同步，但访问的是不一样的内存。
+没有传递的参数会自动赋值undefined。
+
+引用类型的值是保存在内存中的对象
+
+执行环境：定义变量或函数有权访问的其他数据。环境定义的所有变量和函数都保存在变量对象中。
+
+代码开始执行时，创建比安康随想的作用域链。
+
+变量对象-》包含（外部）环境-》下一个外部环境。。。全局环境
+
+上面这条叫做“作用域链”，用来保证变量/函数的有序访问。
+
+标识符沿着作用域链主机搜索。
+
+
+延长作用域链： catch， width
+
+ES5中没有块级作用域
+
+垃圾收集：以固定时间间隔，周期地执行‘找出那些不再使用的变量，然后释放其内存’。
+
+
+标记清除（mark-and-sweep）
+进入环境 离开环境
+
+
+引用计数（reference counting） 会产生引用循环
+
+js是用标记清除策略的，BOM和DOM在IE中是用引用计数策略的， IE8及以前，两种收集策略并用，会导致循环引用，内存泄露。
+
+性能问题；
+不能根据内训分配量云慈宁宫，会导致变量一多，垃圾回收机制频繁地运行。
+IE7的做法：根据内存回收的数量，少于15%则提高临界值，大于85%则重置临界值。
+
+内存限制（浏览器被分配到较少的内存资源）会影响：
+给变量分配内存
+调用栈
+1个线程中能同事执行的语句数量
+
+优化内存：
+对不再使用的全局变量置null
+
+基本类型的值在内存中占用固定大小的空间，保存在栈上、
+
+引用类型的值是对象，保存在堆中。
+
+确定一个值是哪种基本数据类型的用typeof，是哪种引用类型的用instanceof
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html5新增标签
+格式相关：dpi meter mark progress war
+表单相关：datalist keggen output
+图像相关：canvas figure fig caption
+媒体：audio video 
+页面结构：nav header footer section article
+
+缓存实现
+包括数据库缓存 代理服务器缓存 cdn缓存 浏览器缓存
+
+页面的缓存由请求头和响应头控制
+
+margin和padding的百分比是参照的富容器的宽度
+
+
+异步编程的方案：
+generator：
+yield后面的表达式作为generator的next()的返回值
+next的入参作为yield的返回值
+//todo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+js秘密花园
 
 变量解析是在代码运行前
 赋值是在运行时
