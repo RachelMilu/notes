@@ -1,0 +1,164 @@
+/*工厂模式*/
+/*
+优点：创建多个相似对象
+问题：没有解决对象识别的问题
+*/
+
+function creatPerson(age,name,gender){
+    var obj = new Object();
+    obj.age = age;
+    obj.name = name;
+    obj.gender = gender;
+    obj.sayHi = function(){
+        alert('hi!')
+    }
+    return obj;
+}
+var lili = creatPerson(21,"lili","femail");
+var tom = creatPerson(30,"Tom","mail");
+
+/*构造函数模式*/
+/* 特点：
+ 没有显示地创造对象
+ 直接将属性赋值给this
+ 没有return
+ 构造器函数首字母大写，用new关键字来调用
+
+ 优点：
+ 可以将构造出来的示例对象标识为一种特定的类型
+
+ 缺点：
+ 构造函数里的方法们会在没个实例上各自创造一遍
+*/
+function Person(age,name,gender){
+    this.age = age;
+    this.name = name;
+    this.gender = gender;
+    this.sayHi = function(){//这行等于 this.sayHi = new Function(){...}
+        alert('hi!');
+    }
+}
+
+var lili2 = new Person(21,'lili2',"f");
+var tom2 = new Person(21,'tom2',"m");
+/*
+上面这一步实际上做了一下动作：
+1.创建一个对象
+2.构造器的this指向新创建的对象
+3.执行构造器函数
+4.返回对象
+*/
+
+/*
+ 这个时候lili2.constructor === Person === tom2.constructor
+ constructor可以用来表示对象的类型
+ 也可以用instaneof操作符
+ lili2 instanceof Object
+ //true
+ lili2 instanceof Person
+ //true
+*/
+
+
+/*原型模式*/
+/*
+问题：所有实例共享原型属性和方法，容易被修改掉
+*/
+function Person(){
+
+}
+Person.prototype.age = "0";
+Person.prototype.name = "lili";
+Person.prototype.gender = "f";
+
+var lili = new Person();
+var tom = new Person();
+
+
+/*组合构造函数模式和原型模式*/
+function Person(age,name,gender){
+    this.age = age;
+    this.name = name;
+    this.gender = gender;
+    this.sayHi = function(){//这行等于 this.sayHi = new Function(){...}
+        alert('hi!');
+    }
+}
+Person.prototype.laugh = function(){
+    aler("hahhhh~");
+}
+var lili = new Person();
+var tom = new Person();
+
+
+/*动态原型模式*/
+//在构造函数中创建原型方法
+//这种方式不能用字面量方法重写原型，会切断实例与新原型之间的关系
+function Person(age,name,gender){
+    this.age = age;
+    this.name = name;
+    this.gender = gender;
+    this.sayHi = function(){//这行等于 this.sayHi = new Function(){...}
+        alert('hi!');
+    }
+    if(typeof this.laugh != "function"){//只需要检查一个即可
+        Person.prototype.laugh = function(){
+
+        }
+        //...
+
+    }
+}
+
+
+/*寄生parasitic构造函数*/
+//创建一个函数，该函数的作用仅仅用来封装新创建的对象的代码，然后返回改对象。
+//构造函数在不反悔值得情况下，会默认返回新的实例对象，通过在构造函数里的return语句，重写返回的一个对象。
+//适用场景：如创建一个特殊的Array
+//返回的实例对象跟构造函数和原型对象是没有关系的，不能用instanceof操作符来确定对象类型
+
+function sArray(){
+    var arr = new Array();
+    arr.push.apply(arr,arguments);
+    arr.sing = function(){
+        alert('llalala')
+    }
+    return arr;
+}
+
+var arr = new sArray("dd","ff","ddd");
+arr.sing();
+
+
+/*稳妥对象和稳妥构造函数*/
+//稳妥对象durable objects：没有公共属性的，其方法也不引用this的对象。
+//稳妥构造函数：创建对象的实例方法不使用this，不使用new操作符调用构造函数。
+function Person(){
+    var a = {};
+    a.sayHi = function (){
+
+    }
+    return a;
+}
+
+var a = Person();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
