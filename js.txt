@@ -1,5 +1,199 @@
 学习笔记
 
+code review
+1、给变量起名字要用四级单词。
+2、 ajax 请求的参数如果是拼接而来的要加encodeURLCompnonent
+3、插入dom的数据，如果是从url或者服务器传过来的要替换<>“&
+4、精确使用== ===
+5、变量缓存
+6、host后面木有/的
+
+帖子学习笔记
+
+捕获：window 到div
+冒泡：div 到window
+
+<meta name="viewport" content="width=device-width,height=device-height,user-scalable=no”>加了user-scalable=no 就不会有300毫秒的延迟
+移动端事件触发顺序
+touchstart
+
+touchmove
+
+touchend
+
+mouseover
+
+mouseenter
+
+mousedown
+
+click
+
+preventDefault的定义是
+
+“取消事件的默认行为。如果cancelable是true,则可以使用这个方法。”
+而stopPropagation的定义是
+
+“取消事件的进一步捕获或冒泡，如果bubbles为true，则可以使用这个方法。”
+
+
+
+
+
+
+
+
+
+
+
+加载一个页面花2-3秒是正常的，4秒以上时50%的用户会离开这个页面。
+
+
+http2
+多个请求可以合并成一个
+同一个请求头中可以有多个方法。
+信息头进行了压缩
+服务器主动push
+
+解决了问题：
+多个请求时TCP链接耗时，相同请求头耗流量
+html与内部资源的延时减少
+
+
+inline-block 的迷之空白
+1，改变html的结构；压缩、缺失结束标签
+2，修改nodeType=3 表示文本txt
+3，margin为负值
+4，font-size of container 为0
+5，chrome中用4 Safari中用letter-space：-n px
+
+
+html5新增标签
+格式相关：dpi meter mark progress war
+表单相关：datalist keggen output
+图像相关：canvas figure fig caption
+媒体：audio video 
+页面结构：nav header footer section article
+
+缓存实现
+http://www.alloyteam.com/2016/03/discussion-on-web-caching/
+
+包括数据库缓存 代理服务器缓存 cdn缓存 浏览器缓存
+
+页面的缓存由请求头和响应头控制
+
+header里的四种参数：
+一，cache-control
+max-age 单位s，设置缓存的最大有效时间，会覆盖expires，用于普通缓存
+s-max-age 会覆盖expires，用于共享缓存、代理服务器（如cdn），会覆盖max-age和expires
+public 多用户共享缓存
+private 私有缓存
+no-cache 不缓存，每次请求都重新验证，配合private、max-age使用。
+no-store 不缓存
+must-revalidate
+
+二，Expires 用来定义缓存到期时间，是具体的 时间，需要和last-modify配合使用
+
+三，Last-modified 最后修改时时间，与cache-control结合使用。再次请求时请求头中会加上if-Modified-Since 如果未修改返回304，否则返回200
+
+四，ETag 服务器根据资源生成一串哈希，返回给浏览器，浏览器再次请求是会发送给服务器，两者进行比较没验证资源是否被修改。修改时间精确；修改时间变了，内容没变则依然用缓存。
+
+缓存策略：页面资源的内容与请求资源的url关联（数据摘要算法）；页面与资源发布在不同的服务器上，使用非覆盖式发布。
+
+margin和padding的百分比是参照的富容器的宽度
+
+异步编程的方案：
+generator：
+yield后面的表达式作为generator的next()的返回值
+next的入参作为yield的返回值
+//todo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+js秘密花园
+
+变量解析是在代码运行前
+赋值是在运行时
+this的五种指向
+1 全局的this
+2 全局里的方法调用
+3 对象的方法调用
+4 new 出来的对象 的函数里的this
+5 a.prototype.call的第一个参数
+
+晚绑定特性 var a = B.C(); a()里面的this不是B 而是全局对象
+
+闭包 循环中的闭包 特别是settimeout中的闭包
+匿名包裹器即自执行函数
+在settimeout中引用外部函数的属性时，1 可以用自执行函数传参的形式生成一个拷贝 2 在自执行函数中返回一个函数
+
+apply a.apply.（null，argument）等同于 a(argument)
+
+new  如果构造器没有显示地返回 则会隐式的返回this。如果显式的返回一个非对象的玩意儿，则依然返回this。
+除非返回自定义对象，但是返回自定义对象不能继承构造器的prototype
+
+工厂模式 即声明一个工厂方法 在该方法里返回新对象 放弃原型链
+
+每次引用一个变量，js会向上遍历整个作用域，直到找到这个变量为止。否则会抛出一个referrenceError。
+
+变量提升 var表达式和function声明都会被提升到当前作用域顶部。 赋值动作在变量提升后面。
+
+匿名函数会被认为是表达式，他们会被先执行。
+
+命名冲突可以用自执行函数解决，自执行函数会创建出新的命名空间。
+
+(function(){}()) == (function(){})()  == +function(){}();
+
+for in 遍历数组，会遍历原型链上的所有属性，会慢。
+
+hasOwnProperty过滤原型链上的属性。
+
+最佳性能是哪个经典的for   for(var i=0;){}
+
+undefined在js中是一个变量
+
+数组字面量是[]
+
+js是弱类型语言 == 会为了比较两个值儿进行强制类型转换， === 严格等于，不做类型转换
+
+typeof运算符 会返回五种类型 string boolean object function number
+
+获取具体哪个class的值 用Object.prototype.toString.call(某个对象)
+
+instanceof 比较两个操作数的构造函数在同上下文中是否一样
+
+‘’ + 10 === ’10'
+
++’10’ === 10
+
+
+
+
+
 http2
 多个请求可以合并成一个
 同一个请求头中可以有多个方法。
